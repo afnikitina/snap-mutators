@@ -6,8 +6,13 @@ class Student {
 
 	// class constructor
 	public function __construct(string $name, int $age) {
-		$this->studentFullName = setStudentName($name);
-		$this->studentAge = setStudentAge($age);
+		try {
+			$this->setStudentName($name);
+			$this->setStudentAge($age);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw (new $exceptionType($exception->getMessage(), 0, $exception));
+		}
 	}
 
 	//class accessors
